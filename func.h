@@ -25,7 +25,7 @@ void writefile(const string& filename, vector<int>& freq, const queue_t& queue, 
 
 void read_decoding_file(string& filename, vector<int>& freq, string& message); 
 
-void make_char(const Node::pointer& root, const string& message, string& text); 
+void make_char(const Node::pointer& root, const string& message, const string& filename);
 
 void write_decoding_file(const string& filename, const string& text);
 

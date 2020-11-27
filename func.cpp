@@ -58,7 +58,7 @@ void makecode(Node::pointer& node, string str, vector<string>& codes) {
 }
 
 void fillqueue(vector<int>& freq, queue_t& queue) {
-    for (int i = 0; i < freq.size(); i++) { //unsigned
+    for (unsigned int i = 0; i < freq.size(); i++) { //unsigned
         if (freq[i] != 0) {
             Node::pointer node = make_shared<Node>(i, freq[i]);
             queue.push(node);
@@ -183,15 +183,23 @@ void read_decoding_file(string& filename, vector<int>& freq, string& message) {
     // cout << message << endl;
 }
 
-void make_char(const Node::pointer& root, const string& message, string& text) {
+void make_char(const Node::pointer& root, const string& message, const string& filename) {
     Node::pointer node = root;
+    string new_filename = filename + ".1";
+    ofstream ofs(new_filename, ofstream::binary);
+    if (!ofs) {
+        throw - 5;
+    }
+   // string t = "";
     for (size_t i = 0; i < message.size(); i++) {
         char ch = message[i];
         if (ch == '0') {
             if (node->left != nullptr) {
                 node = node->left;
                 if (node->isleaf()) {
-                    text += node->getbyte();
+                    //t= node->getbyte();
+                    //ofs << t;
+                    ofs << node->getbyte();
                     node = root;
                 }
             }
@@ -200,7 +208,9 @@ void make_char(const Node::pointer& root, const string& message, string& text) {
             if (node->right != nullptr) {
                 node = node->right;
                 if (node->isleaf()) {
-                    text += node->getbyte();
+                  //  t = node->getbyte();
+                    //ofs << t;
+                    ofs << node->getbyte();
                     node = root;
                 }
             }
@@ -253,8 +263,6 @@ void unzip(string& filename) {
     buildtree(queue2);
 
     Node::pointer root2 = queue2.top();
-    string text = "";
-    make_char(root2, message2, text);
+    make_char(root2, message2, filename);
 
-    write_decoding_file(filename, text);
 }
